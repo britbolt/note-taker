@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const {notes} = require('./Develop/db/notes');
+const express = require('express');
+const {notes} = require('./develop/db');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
