@@ -1,11 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
-const {notes} = require('./Develop/db/notes');
-const express = require('express');
-const {notes} = require('./develop/db');
+const {notes} = require('./db/notes.json');
 const PORT = process.env.PORT || 3001;
 const app = express();
+
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -14,7 +13,7 @@ function createNewNote(body, notesArray) {
     const notes = body;
     notesArray.push(notes);
     fs.writeFileSync(
-        path.join(__dirname, './Develop/db/notes.json'),
+        path.join(__dirname, './db/notes.json'),
         JSON.stringify({notes:notesArray}, null, 2)
     );
     return notes;
@@ -27,7 +26,7 @@ function validateNotes(notes) {
     return true;
 }
 
-app.post('/api/notes', (req, res) => {
+app.post('/db/notes', (req, res) => {
     if (!validateNotes(req.body)) {
         res.status(400).send('The note is not right!');
     } else {
@@ -37,11 +36,11 @@ app.post('/api/notes', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './Develop/public/index.html'));
+    res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './Develop/public/notes.html'));
+    res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
 app.listen(PORT, () => {
